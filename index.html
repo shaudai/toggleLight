@@ -8,46 +8,32 @@
   <div class="div" id="timer">5</div>
   <img id="image" src="img/on.jpg">
   <script>
-    var state = true;
-    var timeLeft = 5;
+    let timeLeft = 5;
+    const toggleFunc = toggleLight();
+    document.getElementById("toggle").addEventListener("click", toggleFunc);
 
-    var image = document.getElementById("image");
-    document.getElementById("toggle").addEventListener("click", toggleLight);
+    function toggleLight () {
+      let state = true;
+      const image = document.getElementById("image");
 
-    function toggleLight(){
-      console.log(state);
-      if (true == state) {
-        console.log('turn off');
-        image.src = "img/off.jpg";
+      return () => {
+        image.src = `img/${state ? 'off' : 'on'}.jpg`;
+        document.getElementById("timer").innerHTML = (timeLeft = state ? 0 : 5);
+        (true == state) ? (clearInterval(id)) : (id = setInterval(countDownTimer, 1000));
         state = !state;
-        timeLeft = 0;
-        document.getElementById("timer").innerHTML = timeLeft;
-        clearInterval(id);
-      }
-
-      else {
-        console.log('turn on');        
-        image.src = "img/on.jpg";
-        state = !state;
-        timeLeft = 5;
-        document.getElementById("timer").innerHTML = timeLeft;
-        id = setInterval(countDownTimer, 1000);
-      }
-      
+      };
     }
 
     function countDownTimer() {
-      
       timeLeft = timeLeft - 1;
       if (timeLeft <= 0) {
-        image.src = "img/off.jpg";
-        toggleLight();
+        toggleFunc();
         clearInterval(id);  //取消倒數計時器的interval設定
       }
       document.getElementById("timer").innerHTML = timeLeft;
     }
-    var id = setInterval(countDownTimer, 1000);
-    
+
+    let id = setInterval(countDownTimer, 1000);
   </script>
 </body>
 </html>
